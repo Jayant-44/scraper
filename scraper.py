@@ -7,7 +7,6 @@ def scrape_mdcomputers(search_term):
     base_url = "https://mdcomputers.in/index.php"
     params = {'route': 'product/search', 'search': search_term}
     
-    # Use cloudscraper to mimic a real Chrome browser and bypass Cloudflare
     scraper = cloudscraper.create_scraper(browser={
         'browser': 'chrome',
         'platform': 'windows',
@@ -20,6 +19,15 @@ def scrape_mdcomputers(search_term):
     except Exception as e:
         print(f"Error fetching data: {e}")
         return []
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+    
+    # Save the raw HTML to a file for manual inspection
+    with open("debug.html", "w", encoding="utf-8") as f:
+        f.write(soup.prettify())
+        
+    print("✅ Saved raw HTML to 'debug.html' in your tasks folder.")
+    return []
 
     soup = BeautifulSoup(response.text, 'html.parser')
     
